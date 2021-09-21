@@ -1,0 +1,34 @@
+version: "3"
+services:
+  app:
+    build: .
+
+    ports:
+      - "8081:80"
+    volumes:
+      - .:/src/app
+    networks:
+      - andrii
+
+  postgres:
+    image: "postgres:12.1"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=docker
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+    networks:
+      - andrii
+
+  adminer:
+    image: "adminer:4.7.5"
+    ports:
+      - 8080:8080
+    networks:
+      - andrii
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=postgres
+
+networks:
+  andrii:
